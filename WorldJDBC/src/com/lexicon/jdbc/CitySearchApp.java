@@ -1,6 +1,7 @@
 package com.lexicon.jdbc;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -94,11 +95,7 @@ public class CitySearchApp extends JFrame {
 				CityTableModel model = new CityTableModel(result);
 				CityTable.setModel(model);
 				
-				for(City temp : result){
-					System.out.println(temp);
-				}
-					
-				System.out.println(result);
+				
 				}
 				catch(Exception e){
 					JOptionPane.showMessageDialog(CitySearchApp.this, "Error: "+ e);
@@ -108,11 +105,36 @@ public class CitySearchApp extends JFrame {
 		});
 		panel.add(SearchButton);
 		
+		JButton AddCity = new JButton("Add a new city");
+		AddCity.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				
+				AddNewCity addNewCityDialog = new AddNewCity(CitySearchApp.this, daoOBJ);
+				addNewCityDialog.setVisible(true);
+				
+			}
+		});
+		panel.add(AddCity);
+		
 		JScrollPane scrollPane1 = new JScrollPane();
 		contentPane.add(scrollPane1, BorderLayout.CENTER);
 		
 		CityTable = new JTable();
 		scrollPane1.setViewportView(CityTable);
+	}
+
+	public void refreshCityView() {
+		// TODO Auto-generated method stub
+		try{
+		List<City> newCityList = daoOBJ.getAllCities();
+		CityTableModel newTable = new CityTableModel(newCityList);
+		CityTable.setModel(newTable);
+				
+		}
+		catch (Exception e){
+			JOptionPane.showMessageDialog(this, "Error: " + e,"Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 }

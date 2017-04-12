@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.mysql.jdbc.MySQLConnection;
+
 public class WorldDAO {
 
 	private Connection myCon;
@@ -33,7 +35,22 @@ public class WorldDAO {
 		
 	}
 	
+	public int CityCount() throws Exception{
+		try{
+		Statement myStat = myCon.createStatement();
+		ResultSet result = myStat.executeQuery("SELECT COUNT(*) FROM city");
 		
+		int countOfRecords = result.getInt(1);
+			
+		return countOfRecords;
+		}
+		
+		finally
+		{}
+		
+		
+	}	
+	
 	public List<City> getAllCities() throws Exception {
 		
 		List<City> cityList = new ArrayList<>();
@@ -115,6 +132,25 @@ public class WorldDAO {
 		
 		City newCity = new City(iD,Name,countryCode,district,population);
 		return newCity;
+		
+	}
+	
+	public void addANewCity(City newCityToAdd) throws Exception{
+		
+		PreparedStatement myStat = null;
+		try{
+		myStat = myCon.prepareStatement("INSERT iD, Name, countryCode, district, population VALUES ?,?,?,?,?");
+		
+		myStat.setLong(1,newCityToAdd.getiD());
+		myStat.setString(2, newCityToAdd.getName());
+		myStat.setString(3, newCityToAdd.getCountryCode());
+		myStat.setString(4, newCityToAdd.getDistrict());
+		myStat.setLong(5, newCityToAdd.getPopulation());
+		
+		myStat.executeQuery();
+		System.out.println("The new city: " + newCityToAdd.getName() + "has been added!");
+		}
+		finally{}
 		
 	}
 

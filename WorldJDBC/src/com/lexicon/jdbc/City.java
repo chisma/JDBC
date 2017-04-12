@@ -15,6 +15,11 @@ public class City {
 	}
 
 
+	public void setiD(int iD) {
+		this.iD = iD;
+	}
+
+
 	public String getName() {
 		return Name;
 	}
@@ -35,9 +40,8 @@ public class City {
 	}
 
 
-	public City(int iD, String Name, String CountrCode, String District, long population){
+	public City(int iD,String Name, String CountrCode, String District, long population){
 		
-		this.iD = iD;
 		this.Name = Name;
 		this.CountryCode = CountrCode;
 		this.population = population;
